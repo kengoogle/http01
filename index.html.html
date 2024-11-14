@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKAMOTO LABO レーザー彫刻サービス</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --bg-color: #ecf0f1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .price-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.2);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .file-input-button:hover {
+            background: #2980b9;
+        }
+
+        input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .preview-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .submit-button {
+            background: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease, background 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            background: white;
+            margin-top: 50px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>OKAMOTO LABO</h1>
+        <p>レーザー彫刻サービス</p>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <div class="price-section">
+                <h3>料金案内</h3>
+                <p>基本料金: ¥3,000〜</p>
+                <p>※ サイズや複雑さによって料金が変動します。<br>
+                   ※ 詳細な料金は、画像確認後にご連絡させていただきます。</p>
+            </div>
+
+            <form id="engravingForm" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">お名前 *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">メールアドレス *</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tel">電話番号 *</label>
+                    <input type="tel" id="tel" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">配送先住所 *</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">彫刻する画像 *</label>
+                    <div class="file-input-wrapper">
+                        <div class="file-input-button">画像を選択</div>
+                        <input type="file" id="image" accept="image/*" required>
+                    </div>
+                    <div class="preview-container">
+                        <img id="preview" class="preview-image" alt="プレビュー">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">備考</label>
+                    <textarea id="notes" rows="4" placeholder="ご要望やご質問がございましたら、こちらにご記入ください。"></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">注文する</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 OKAMOTO LABO. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 画像プレビュー機能
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // フォーム送信処理
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const mailtoUrl = `mailto:teamkimi@mail.goo.ne.jp?subject=レーザー彫刻の注文&body=${encodeURIComponent(
+                `お名前: ${document.getElementById('name').value}
+メールアドレス: ${document.getElementById('email').value}
+電話番号: ${document.getElementById('tel').value}
+住所: ${document.getElementById('address').value}
+備考: ${document.getElementById('notes').value || 'なし'}
+
+※画像は添付ファイルをご確認ください。`
+            )}`;
+
+            window.location.href = mailtoUrl;
+            return false;
+        }
+    </script>
+</body>
+</html>
